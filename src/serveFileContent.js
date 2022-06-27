@@ -3,6 +3,7 @@ const fs = require("fs");
 const extensions = {
   png: 'image/png',
   jpeg: 'image/jpeg',
+  jpg: 'image/jpeg',
   html: 'text/html'
 };
 
@@ -19,7 +20,8 @@ const handler = (request, response) => {
   const filename = `./html${uri}`;
   if (fs.existsSync(filename)) {
     const content = fs.readFileSync(filename);
-    const contentType = getType(content);
+    const contentType = getType(filename);
+    console.log(contentType);
     response.addHeader('Content-type', contentType);
     response.send(content);
     return true;
