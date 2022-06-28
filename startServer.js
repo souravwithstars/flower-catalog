@@ -1,3 +1,3 @@
-const { startServer } = require('./src/server.js');
+const { startServer, handler } = require('./src/server.js');
 
-startServer(4567);
+startServer(4567, handler);

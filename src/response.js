@@ -1,5 +1,6 @@
 const statusMessages = {
   200: 'OK',
+  302: 'REDIRECT',
   404: 'NOT FOUND'
 };
 
