@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  height: 400px;
+}
+
+h3 {
+  margin: 18px;
+}
+
+header {
+  border-bottom: 1px solid black;
+  text-align: center;
+  color: orange;
+}
+
+main>figure {
+  margin: 1em;
+  width: 100%;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+main>div {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  width: 50%;
+  padding-bottom: 3em;
+}
+
+p {
+  font-size: 11px;
+}

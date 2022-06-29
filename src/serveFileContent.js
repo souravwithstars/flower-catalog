@@ -67,7 +67,6 @@ const serveGuestBook = (request, response, templateFile, commentFile) => {
   const template = fs.readFileSync(templateFile, 'utf8');
   const comments = JSON.parse(previousComments);
   const tableData = createTable(comments);
-  console.log(tableData);
   const placedContent = template.replace('_comments_', tableData);
 
   const contentType = getType(templateFile);

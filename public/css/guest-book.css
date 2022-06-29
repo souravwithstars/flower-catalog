@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.page-heading {
+  font-size: 10px;
+  color: orange;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
