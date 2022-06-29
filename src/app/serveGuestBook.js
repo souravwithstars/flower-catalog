@@ -42,7 +42,7 @@ const serveGuestMessage = (request, commentFile, response) => {
 const createGuestBook = (templateFile, comments) => {
   const template = fs.readFileSync(templateFile, 'utf8');
   const parsedComments = JSON.parse(comments);
-  const tableData = createTable(comments);
+  const tableData = createTable(parsedComments);
   const placedContent = template.replace('_comments_', tableData);
   return placedContent;
 };
