@@ -7,8 +7,6 @@ const addCommentHandler = (req, res, guestBookPath) => {
   comments.unshift(bodyParams);
   fs.writeFileSync(guestBookPath, JSON.stringify(comments), 'utf8');
 
-  res.statusCode = 302;
-  res.setHeader('Location', '/guest-book');
   res.end('');
 };
 

@@ -9,6 +9,7 @@ const { loginHandler } = require('./handlers/loginHandler.js');
 const { logoutHandler } = require('./handlers/logoutHandler.js');
 const { guestBookRouter } = require('./handlers/guestBookRouter.js');
 const { serveStatic } = require('./server/serveStatic.js');
+const { apiHandler } = require('./handlers/serveApis/apiHandler.js');
 
 const app = (path, comments, template, guestBookPath, users, userDetails) => {
   const sessions = {};
@@ -24,6 +25,7 @@ const app = (path, comments, template, guestBookPath, users, userDetails) => {
     logoutHandler(sessions),
     guestBookRouter(comments, template, guestBookPath),
     serveStatic(path),
+    apiHandler,
     notFoundHandler
   );
 };

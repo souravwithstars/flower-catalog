@@ -1,11 +1,12 @@
-const search = (comments, params) => {
-  return comments.find(({ name }) => name === params.name);
+const search = (comments, param) => {
+  return comments.filter(({ name }) => name === param);
 };
 
-const searchComment = ({ comments, url }, res) => {
-  const { params } = url;
+const searchComment = (req, res) => {
+  const { comments, url, } = req;
+  const param = url.searchParams.get('name');
   res.setHeader('content-type', 'application/json');
-  const result = search(comments, params);
+  const result = search(comments, param);
   res.end(JSON.stringify(result));
   return true;
 };
