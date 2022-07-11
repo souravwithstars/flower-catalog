@@ -34,11 +34,6 @@ const loginHandler = (users, sessions) => {
     const { pathname } = req.url;
 
     if (pathname !== '/login') {
-      if (!req.session) {
-        res.statusCode = 401;
-        res.end('Access Denied !!! Login to access the Flower-Catalog');
-        return;
-      }
       next();
       return;
     }

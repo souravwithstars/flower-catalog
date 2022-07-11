@@ -12,6 +12,12 @@ const guestBookRouter = (comments, template, guestBookPath) => {
     }
 
     if (pathname === '/guest-book' && req.method == 'GET') {
+      if (!req.session) {
+        res.setHeader('Location', '/login');
+        res.statusCode = 302;
+        res.end();
+        return;
+      }
       serveGuestBook(req, res, template);
       return;
     }
