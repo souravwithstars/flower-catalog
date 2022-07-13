@@ -44,4 +44,4 @@ const serveStatic = (path) => {
   };
 };
 
-module.exports = { serveStatic };
+module.exports = { serveStatic, invalidRequest };
