@@ -1,4 +1,6 @@
+const fs = require('fs');
 const { createRouter, notFoundHandler } = require('server');
+const { parseUrlSearchParams } = require('./handlers/parseUrlSearchParams.js');
 const { receiveBodyParams } = require('./handlers/parseBodyParams.js');
 const { parseParams } = require('./handlers/parseParams.js');
 const { logRequest } = require('./handlers/logRequest.js');
@@ -11,10 +13,13 @@ const { guestBookRouter } = require('./handlers/guestBookRouter.js');
 const { serveStatic } = require('./server/serveStatic.js');
 const { apiHandler } = require('./handlers/serveApis/apiHandler.js');
 
-const app = (path, comments, template, guestBookPath, users, userDetails) => {
-  const sessions = {};
+const app = ({ guestbook, path, templateFile, userDetails }, sessions) => {
+  const template = fs.readFileSync(templateFile, 'utf-8');
+  const comments = JSON.parse(fs.readFileSync(guestbook, 'utf-8'));
+  const users = JSON.parse(fs.readFileSync(userDetails, 'utf-8'));
 
   return createRouter(
+    parseUrlSearchParams,
     receiveBodyParams,
     parseParams,
     logRequest,
@@ -23,7 +28,7 @@ const app = (path, comments, template, guestBookPath, users, userDetails) => {
     signUpHandler(users, userDetails),
     loginHandler(users, sessions),
     logoutHandler(sessions),
-    guestBookRouter(comments, template, guestBookPath),
+    guestBookRouter(comments, template, guestbook),
     serveStatic(path),
     apiHandler,
     notFoundHandler

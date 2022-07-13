@@ -1,30 +1,20 @@
 const request = require('supertest');
-const { createRouter, notFoundHandler } = require('server');
-const { parseUrlSearchParams } = require('../src/handlers/parseUrlSearchParams.js');
-const { receiveBodyParams } = require('../src/handlers/parseBodyParams.js');
-const { parseParams } = require('../src/handlers/parseParams.js');
-const { logRequest } = require('../src/handlers/logRequest.js');
-const { injectCookies } = require('../src/handlers/injectCookies.js');
-const { injectSession } = require('../src/handlers/injectSession.js');
-const { signUpHandler } = require('../src/handlers/signupHandler.js');
-const { loginHandler } = require('../src/handlers/loginHandler.js');
-const { logoutHandler } = require('../src/handlers/logoutHandler.js');
-const { guestBookRouter } = require('../src/handlers/guestBookRouter.js');
-const { serveStatic } = require('../src/server/serveStatic.js');
-const { apiHandler } = require('../src/handlers/serveApis/apiHandler.js');
+const { app } = require('../src/app.js');
+
+const config = {
+  guestbook: 'public/comments.json',
+  path: './public',
+  templateFile: 'public/guest-book.html',
+  userDetails: 'public/userDetails.json'
+};
 
 const sessions = {};
-const users = [{ "username": "Sourav", "password": "1234" }];
-const comments = [{ "comment": "Beautiful", "name": "Sourav", "date": "13/07/2022, 10:34:05" }];
-const path = './public'
 
-const handlers = [parseUrlSearchParams, receiveBodyParams, parseParams, logRequest, injectCookies, injectSession(sessions), signUpHandler(users), loginHandler(users, sessions), logoutHandler(sessions), guestBookRouter(comments), serveStatic(path), apiHandler, notFoundHandler];
-
-const app = createRouter(...handlers);
+const myApp = app(config, sessions);
 
 describe('signUpHandler', () => {
   it('Should get status code 200 for GET /signup', done => {
-    request(app)
+    request(myApp)
       .get('/signup')
       .expect('Content-type', /html/)
       .expect(200)
@@ -41,7 +31,7 @@ describe('signUpHandler', () => {
 
 describe('loginHandler', () => {
   it('Should get status code 200 for GET /login', done => {
-    request(app)
+    request(myApp)
       .get('/login')
       .expect('Content-type', /html/)
       .expect(200)
@@ -58,7 +48,7 @@ describe('loginHandler', () => {
 
 describe('apiHandler', () => {
   it('Should get status code 200 and comments as json format', done => {
-    request(app)
+    request(myApp)
       .get('/api.comments')
       .expect('Content-type', /json/)
       .expect(200)
@@ -73,7 +63,7 @@ describe('apiHandler', () => {
   });
 
   it('Should get status code 200 and comments of particular given name', done => {
-    request(app)
+    request(myApp)
       .get('/api.search')
       .expect('Content-type', /json/)
       .expect(200)
