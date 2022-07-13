@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "server": "github:souravwithstars/server"
+    "server": "github:souravwithstars/server",
+    "supertest": "^6.2.4"
   }
 }
