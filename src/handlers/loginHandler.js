@@ -3,7 +3,7 @@ const createSession = username => {
   const id = date.getTime();
   const session = { id, username, date };
   return session;
-}
+};
 
 const loginPage = `
 <html>
