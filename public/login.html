@@ -1,0 +1,32 @@
+<html>
+
+  <head>
+    <title>Login</title>
+    <script src="scripts/login.js"></script>
+    <style>
+      #register-link {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form>
+      <div>
+        <label for="username">Username : </label>
+        <input type="text" name="username" id="username">
+      </div><br />
+      <div>
+        <label for="password">Password : </label>
+        <input type="password" name="password" id="password">
+      </div><br />
+      <div>
+        <input type="button" value="Login" onclick="validateUser()">
+      </div>
+    </form>
+    <div id="register-link">
+      <p>Please Register Your Details !!!<a href="./signup.html">Register</a></p>
+    </div>
+  </body>
+
+</html>

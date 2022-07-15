@@ -1,0 +1,40 @@
+<html>
+
+  <head>
+    <title>Sign-up</title>
+    <style>
+      #login-link {
+        visibility: hidden;
+      }
+    </style>
+    <script>
+      window.onload = () => {
+        const submit = document.getElementById('submit');
+        submit.addEventListener('click', () => {
+          const login = document.getElementById('login-link');
+          login.style.visibility = 'visible';
+        });
+      };
+    </script>
+  </head>
+
+  <body>
+    <form action="/register" method="post">
+      <div>
+        <label for="username">Username : </label>
+        <input type="text" name="username" id="username">
+      </div><br />
+      <div>
+        <label for="password"> Password : </label>
+        <input type="password" name="password" id="password">
+      </div><br />
+      <div>
+        <input type="submit" value="SIGN-UP" id="submit">
+      </div>
+    </form>
+    <div id="login-link">
+      <p>Registered Successfully !!!<a href="./login.html">Log-In</a></p>
+    </div>
+  </body>
+
+</html>
