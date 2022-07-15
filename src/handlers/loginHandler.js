@@ -29,12 +29,12 @@ const isRegistered = (loginUsername, loginPassword, users) => {
   });
 };
 
-const getLoginHandler = (req, res) => {
+const serveLoginPage = (req, res) => {
   res.set('Content-type', 'text/html');
   res.end(loginPage);
 };
 
-const postLoginHandler = (users, sessions) => (req, res, next) => {
+const userLogin = (users, sessions) => (req, res, next) => {
   const { username, password } = req.body;
   if (!isRegistered(username, password, users)) {
     res.end('Please Register Your Details');
@@ -48,4 +48,4 @@ const postLoginHandler = (users, sessions) => (req, res, next) => {
   res.end();
 };
 
-module.exports = { getLoginHandler, postLoginHandler };
+module.exports = { serveLoginPage, userLogin };

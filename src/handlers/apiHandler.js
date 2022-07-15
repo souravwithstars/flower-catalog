@@ -1,22 +1,21 @@
-const search = (comments, param) => {
-  return comments.filter(({ name }) => name === param);
+const search = (comments, filterBy) => {
+  return comments.filter(({ name }) => name === filterBy);
 };
 
-const getCommentHandler = comments => (req, res) => {
+const serveAllComments = comments => (req, res) => {
   req.comments = comments;
   res.set('content-type', 'application/json');
   res.json(req.comments);
   return true;
 };
 
-const searchCommentHandler = comments => (req, res) => {
+const serveCommentsOf = comments => (req, res) => {
   req.comments = comments;
-  const { query } = req;
-  const param = query.name;
+  const filterBy = req.params.name;
   res.setHeader('content-type', 'application/json');
-  const result = search(comments, param);
+  const result = search(comments, filterBy);
   res.json(result);
   return true;
 };
 
-module.exports = { getCommentHandler, searchCommentHandler };
+module.exports = { serveAllComments, serveCommentsOf };

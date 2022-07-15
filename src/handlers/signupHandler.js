@@ -22,15 +22,15 @@ const signUpPage = `
 </body>
 </html>`;
 
-const getSignUpHandler = (req, res) => {
+const serveSignUpPage = (req, res) => {
   res.set('content-type', 'text/html');
   res.end(signUpPage);
 };
 
-const postSignUpHandler = (users, userDetails) => (req, res, next) => {
+const registerUser = (users, userDetails) => (req, res, next) => {
   users.push(req.body);
   fs.writeFileSync(userDetails, JSON.stringify(users), 'utf-8');
   res.end('Registered Successfully!!');
 };
 
-module.exports = { getSignUpHandler, postSignUpHandler };
+module.exports = { serveSignUpPage, registerUser };

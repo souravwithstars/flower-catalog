@@ -3,12 +3,12 @@ const fs = require('fs');
 const { logRequest } = require('./handlers/logRequest.js');
 const { injectCookies } = require('./handlers/injectCookies.js');
 const { injectSession } = require('./handlers/injectSession.js');
-const { getSignUpHandler, postSignUpHandler } = require('./handlers/signUpHandler.js');
-const { getLoginHandler, postLoginHandler } = require('./handlers/loginHandler.js');
-const { logoutHandler } = require('./handlers/logoutHandler.js');
+const { serveSignUpPage, registerUser } = require('./handlers/signUpHandler.js');
+const { serveLoginPage, userLogin } = require('./handlers/loginHandler.js');
+const { logoutUser } = require('./handlers/logoutHandler.js');
 const { guestBookRouter } = require('./handlers/guestBookRouter.js');
 const { addCommentHandler } = require('./handlers/addCommentHandler.js');
-const { getCommentHandler, searchCommentHandler } = require('./handlers/apiHandler.js');
+const { serveAllComments, serveCommentsOf } = require('./handlers/apiHandler.js');
 
 const myApp = ({ guestbook, path, templateFile, userDetails }, sessions) => {
   const template = fs.readFileSync(templateFile, 'utf-8');
@@ -24,21 +24,21 @@ const myApp = ({ guestbook, path, templateFile, userDetails }, sessions) => {
   app.use(middleWare);
 
   app.use('/signup', signupRouter);
-  signupRouter.get('/', getSignUpHandler);
-  signupRouter.post('/', postSignUpHandler(users, userDetails));
+  signupRouter.get('/', serveSignUpPage);
+  signupRouter.post('/', registerUser(users, userDetails));
 
   app.use('/login', loginRouter);
-  loginRouter.get('/', getLoginHandler);
-  loginRouter.post('/', postLoginHandler(users, sessions));
+  loginRouter.get('/', serveLoginPage);
+  loginRouter.post('/', userLogin(users, sessions));
 
-  app.get('/logout', logoutHandler(sessions));
+  app.get('/logout', logoutUser(sessions));
 
   app.get('/guest-book', guestBookRouter(comments, template));
   app.post('/add-comment', addCommentHandler(comments, guestbook));
 
   app.use('/api', apiRouter);
-  apiRouter.get('/comments', getCommentHandler(comments));
-  apiRouter.get('/search', searchCommentHandler(comments))
+  apiRouter.get('/comments', serveAllComments(comments));
+  apiRouter.get('/search/:name', serveCommentsOf(comments))
 
   return app;
 };
