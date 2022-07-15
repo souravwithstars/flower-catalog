@@ -3,10 +3,10 @@ const { myApp } = require('../src/app.js');
 
 const sessions = {};
 const config = {
-  guestbook: 'test/resources/comments.json',
+  guestbook: 'test/testResources/comments.json',
   path: 'public',
   templateFile: 'resources/guest-book.html',
-  userDetails: 'test/resources/userDetails.json'
+  userDetails: 'test/testResources/userDetails.json'
 };
 
 const app = myApp(config, sessions);
