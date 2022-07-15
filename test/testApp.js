@@ -94,7 +94,7 @@ describe('apiHandler', () => {
 
   it('Should get status code 200 and comments of particular given name', done => {
     request(app)
-      .get('/api/search')
+      .get('/api/search/Sourav')
       .expect('Content-type', /json/)
       .expect(200)
       .end((err, res) => {
