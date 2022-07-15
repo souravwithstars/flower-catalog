@@ -29,35 +29,23 @@ const isRegistered = (loginUsername, loginPassword, users) => {
   });
 };
 
-const loginHandler = (users, sessions) => {
-  return (req, res, next) => {
-    const { pathname } = req.url;
-
-    if (pathname !== '/login') {
-      next();
-      return;
-    }
-
-    if (req.method === 'GET' && !req.session) {
-      res.setHeader('content-type', 'text/html');
-      res.end(loginPage);
-      return;
-    }
-
-    const { bodyParams: { username, password } } = req;
-    if (!isRegistered(username, password, users)) {
-      res.end('Please Register Your Details');
-      return;
-    }
-
-    const session = createSession(username, password);
-    sessions[session.id] = session;
-
-    res.setHeader('Set-Cookie', `id=${session.id}`);
-    res.setHeader('Location', '/guest-book');
-    res.statusCode = 302;
-    res.end();
-  };
+const getLoginHandler = (req, res) => {
+  res.set('Content-type', 'text/html');
+  res.end(loginPage);
 };
 
-module.exports = { loginHandler };
+const postLoginHandler = (users, sessions) => (req, res, next) => {
+  const { username, password } = req.body;
+  if (!isRegistered(username, password, users)) {
+    res.end('Please Register Your Details');
+    return;
+  }
+  const session = createSession(username, password);
+  sessions[session.id] = session;
+
+  res.set('Set-Cookie', `id=${session.id}`);
+  res.redirect(302, '/guest-book');
+  res.end();
+};
+
+module.exports = { getLoginHandler, postLoginHandler };

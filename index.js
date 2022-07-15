@@ -1,17 +1,18 @@
-const fs = require('fs');
-const { startServer } = require('server');
-const { app } = require('./src/app.js');
+const { myApp } = require('./src/app.js');
 
-const main = config => {
+const main = (port, config) => {
   const sessions = {};
-  startServer(4567, app(config, sessions));
+
+  const app = myApp(config, sessions);
+  app.listen(port, () => console.log(`Server listening on ${port}`));
 };
 
+const PORT = 4567;
 const config = {
-  guestbook: 'public/comments.json',
-  templateFile: 'public/guest-book.html',
-  path: './public',
-  userDetails: 'public/userDetails.json'
+  guestbook: 'resources/comments.json',
+  path: 'public',
+  templateFile: 'resources/guest-book.html',
+  userDetails: 'resources/userDetails.json'
 };
 
-main(config);
+main(PORT, config);

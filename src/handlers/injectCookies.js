@@ -1,4 +1,4 @@
-const parseCookies = (cookieString) => {
+const parseCookies = cookieString => {
   const cookies = {};
   if (!cookieString) {
     return cookies;
@@ -11,7 +11,7 @@ const parseCookies = (cookieString) => {
 };
 
 const injectCookies = (req, res, next) => {
-  req.cookies = parseCookies(req.headers.cookie);
+  req.cookies = parseCookies(req.get('cookie'));
   next();
 };
 

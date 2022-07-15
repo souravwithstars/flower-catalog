@@ -3,8 +3,8 @@ const search = (comments, param) => {
 };
 
 const searchComment = (req, res) => {
-  const { comments, url, } = req;
-  const param = url.searchParams.get('name');
+  const { comments, query } = req;
+  const param = query.name;
   res.setHeader('content-type', 'application/json');
   const result = search(comments, param);
   res.end(JSON.stringify(result));

@@ -45,6 +45,7 @@ const sendRequest = xhrRequest => {
     console.log('Post Successfull');
   };
   xhr.open(method, pathname);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.send(body);
   showComments();
   return;
@@ -53,7 +54,7 @@ const sendRequest = xhrRequest => {
 const addComment = () => {
   const xhrRequest = {
     method: 'POST',
-    pathname: '/add-comment'
+    pathname: '/add-comment',
   }
 
   const form = document.querySelector('form');

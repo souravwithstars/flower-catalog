@@ -19,29 +19,22 @@ const invalidRequest = (req, res) => {
 };
 
 const getFileName = ({ url }, path) => {
-  const { pathname } = url;
-  if (pathname === '/') {
+  if (url === '/') {
     return path + '/flower-catalog.html';
   }
-  return path + pathname;
+  return path + url;
 };
 
-const serveStatic = (path) => {
-  return (req, res, next) => {
-    if (req.method !== 'GET') {
-      return invalidRequest(req, res);
-    }
-
-    const fileName = getFileName(req, path);
-    try {
-      const content = fs.readFileSync(fileName);
-      res.setHeader('content-type', getMimeType(fileName));
-      res.setHeader('content-length', content.length);
-      res.end(content);
-    } catch (error) {
-      next();
-    }
-  };
+const serveStatic = path => (req, res, next) => {
+  const fileName = getFileName(req, path);
+  try {
+    const content = fs.readFileSync(fileName);
+    res.setHeader('content-type', getMimeType(fileName));
+    res.setHeader('content-length', content.length);
+    res.end(content);
+  } catch (error) {
+    next();
+  }
 };
 
 module.exports = { serveStatic, invalidRequest };

@@ -3,9 +3,9 @@ const receiveBodyParams = (req, res, next) => {
   req.on('data', (chunk) => {
     data += chunk;
   });
-
   req.on('end', () => {
     req.bodyParams = new URLSearchParams(data);
+    console.log('hello')
     next();
   });
 };

@@ -22,24 +22,15 @@ const signUpPage = `
 </body>
 </html>`;
 
-const signUpHandler = (users, userDetails) => (req, res, next) => {
-  const { pathname } = req.url;
+const getSignUpHandler = (req, res) => {
+  res.set('content-type', 'text/html');
+  res.end(signUpPage);
+};
 
-  if (pathname !== '/signup') {
-    next();
-    return;
-  }
-
-  if (req.method === 'GET') {
-    res.setHeader('content-type', 'text/html');
-    res.end(signUpPage);
-    return;
-  }
-
-  const { bodyParams } = req;
-  users.push(bodyParams);
-  fs.writeFileSync(userDetails, JSON.stringify(users), 'utf8');
+const postSignUpHandler = (users, userDetails) => (req, res, next) => {
+  users.push(req.body);
+  fs.writeFileSync(userDetails, JSON.stringify(users), 'utf-8');
   res.end('Registered Successfully!!');
 };
 
-module.exports = { signUpHandler };
+module.exports = { getSignUpHandler, postSignUpHandler };

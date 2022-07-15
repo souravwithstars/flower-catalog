@@ -1,0 +1,42 @@
+<html>
+
+  <head>
+    <title>Flower Catalog</title>
+    <link rel="stylesheet" href="css/flower-catalog.css">
+    <script>
+      window.onload = () => {
+        const jar = document.getElementById('gif');
+        jar.addEventListener('click', () => {
+          jar.style.visibility = 'hidden';
+          setTimeout(() => {
+            jar.style.visibility = 'visible';
+          }, 1000);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <header>
+      <h3>Flower Catalog</h3>
+    </header>
+    <main>
+      <figure class="flower">
+        <img src="./img/freshorigins.jpg" alt="Flower" title="Flower">
+      </figure>
+      <div>
+        <ul>
+          <li><a href="./abeliophyllum.html">Abeliophyllum</a></li>
+          <li><a href="./ageratum.html">Ageratum</a></li>
+        </ul>
+        <div>
+          <figure id="gif" class="jar" onclick="vanishJar()">
+            <img src="img/animated-flower-image-0021.gif" alt="watering jar" title="watering jar">
+          </figure>
+          <a href="./guest-book">Guest Book</a>
+        </div>
+      </div>
+    </main>
+  </body>
+
+</html>
