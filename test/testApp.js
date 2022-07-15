@@ -79,7 +79,7 @@ describe('loginHandler', () => {
 describe('apiHandler', () => {
   it('Should get status code 200 and comments as json format', done => {
     request(app)
-      .get('/api.comments')
+      .get('/api/comments')
       .expect('Content-type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -94,7 +94,7 @@ describe('apiHandler', () => {
 
   it('Should get status code 200 and comments of particular given name', done => {
     request(app)
-      .get('/api.search')
+      .get('/api/search')
       .expect('Content-type', /json/)
       .expect(200)
       .end((err, res) => {

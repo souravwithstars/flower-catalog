@@ -8,30 +8,37 @@ const { getLoginHandler, postLoginHandler } = require('./handlers/loginHandler.j
 const { logoutHandler } = require('./handlers/logoutHandler.js');
 const { guestBookRouter } = require('./handlers/guestBookRouter.js');
 const { addCommentHandler } = require('./handlers/addCommentHandler.js');
-const { getCommentHandler, searchCommentHandler } = require('./handlers/serveApis/apiHandler.js');
+const { getCommentHandler, searchCommentHandler } = require('./handlers/apiHandler.js');
 
 const myApp = ({ guestbook, path, templateFile, userDetails }, sessions) => {
   const template = fs.readFileSync(templateFile, 'utf-8');
   const comments = JSON.parse(fs.readFileSync(guestbook, 'utf-8'));
   const users = JSON.parse(fs.readFileSync(userDetails, 'utf-8'));
   const app = express();
+  const signupRouter = express.Router();
+  const loginRouter = express.Router();
+  const apiRouter = express.Router();
 
-  app.use(express.json());
-  app.use(express.raw());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.static(path));
-  app.use(logRequest);
-  app.use(injectCookies);
-  app.use(injectSession(sessions));
-  app.get('/signup', getSignUpHandler);
-  app.post('/signup', postSignUpHandler(users, userDetails))
-  app.get('/login', getLoginHandler);
-  app.post('/login', postLoginHandler(users, sessions));
+  const middleWare = [express.json(), express.raw(), express.urlencoded({ extended: true }), express.static(path), logRequest, injectCookies, injectSession(sessions)];
+
+  app.use(middleWare);
+
+  app.use('/signup', signupRouter);
+  signupRouter.get('/', getSignUpHandler);
+  signupRouter.post('/', postSignUpHandler(users, userDetails));
+
+  app.use('/login', loginRouter);
+  loginRouter.get('/', getLoginHandler);
+  loginRouter.post('/', postLoginHandler(users, sessions));
+
   app.get('/logout', logoutHandler(sessions));
+
   app.get('/guest-book', guestBookRouter(comments, template));
   app.post('/add-comment', addCommentHandler(comments, guestbook));
-  app.get('/api.comments', getCommentHandler(comments));
-  app.get('/api.search', searchCommentHandler(comments));
+
+  app.use('/api', apiRouter);
+  apiRouter.get('/comments', getCommentHandler(comments));
+  apiRouter.get('/search', searchCommentHandler(comments))
 
   return app;
 };

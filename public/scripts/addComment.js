@@ -25,7 +25,7 @@ const updateCommentsTable = response => {
 
 const showComments = () => {
   const method = 'GET';
-  const pathname = '/api.comments';
+  const pathname = '/api/comments';
 
   const xhr = new XMLHttpRequest();
   xhr.onload = () => { updateCommentsTable(xhr.response) };
